@@ -7,16 +7,12 @@ namespace Catalog.API.Repositories
     public class ProductRepository : IProductRepository
     {
         readonly ICatalogContext _context;
-        public ProductRepository(ICatalogContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-        public async Task CreateProduct(Product product)
-        {
-            await _context
+        public ProductRepository(ICatalogContext context) 
+            => _context = context ?? throw new ArgumentNullException(nameof(context));
+        public async Task CreateProduct(Product product) 
+            => await _context
                         .Products
                         .InsertOneAsync(product);
-        }
 
         public async Task<bool> DeleteProduct(string id)
         {
@@ -54,13 +50,11 @@ namespace Catalog.API.Repositories
                             .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
-        {
-            return await _context
-                            .Products
-                            .Find(x => true)
-                            .ToListAsync();
-        }
+        public async Task<IEnumerable<Product>> GetProducts() 
+            => await _context
+                        .Products
+                        .Find(x => true)
+                        .ToListAsync();
 
         public async Task<bool> UpdateProduct(Product product)
         {

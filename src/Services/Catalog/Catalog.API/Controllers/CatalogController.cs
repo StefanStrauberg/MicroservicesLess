@@ -10,10 +10,8 @@ namespace Catalog.API.Controllers
     public class CatalogController : ControllerBase
     {
         readonly IProductRepository _repository;
-        public CatalogController(IProductRepository repository)
-        {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-        }
+        public CatalogController(IProductRepository repository) 
+            => _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
@@ -21,12 +19,12 @@ namespace Catalog.API.Controllers
             => Ok( await _repository.GetProducts());
 
         [HttpGet("{id:length(24)}", Name = "GetProduct")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetProductById(string id)
         {
             var product = await _repository.GetProductById(id);
-            if (product == null)
+            if (product is null)
                 return NotFound($"Product with id: {id}, not found.");
             return Ok(product);
         }
@@ -47,12 +45,24 @@ namespace Catalog.API.Controllers
 
         [HttpPut]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateProduct([FromBody] Product product)
-            => Ok(await _repository.UpdateProduct(product));
+        {
+            var result = await _repository.UpdateProduct(product);
+            if(result == false)
+                return BadRequest($"Product with id: {product.Id}, not found.");
+            return Ok(result);
+        }
 
         [HttpDelete("{id:length(24)}", Name = "DeleteProduct")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteProductById(string id)
-            => Ok(await _repository.DeleteProduct(id));
+        {
+            var result = await _repository.DeleteProduct(id);
+            if (result == false)
+                return BadRequest($"Product with id: {id}, not found.");
+            return Ok(result);
+        }
     }
 }
