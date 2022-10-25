@@ -27,6 +27,7 @@ services:
 
   catalog.api:
     container_name: catalog.api
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
@@ -37,6 +38,7 @@ services:
 
   basket.api:
     container_name: basket.api
+    restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basketdb:6379"
