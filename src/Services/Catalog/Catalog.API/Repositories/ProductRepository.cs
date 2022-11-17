@@ -6,9 +6,11 @@ namespace Catalog.API.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        readonly ICatalogContext _context;
+        private readonly ICatalogContext _context;
+        
         public ProductRepository(ICatalogContext context) 
             => _context = context ?? throw new ArgumentNullException(nameof(context));
+        
         public async Task CreateProduct(Product product) 
             => await _context
                         .Products

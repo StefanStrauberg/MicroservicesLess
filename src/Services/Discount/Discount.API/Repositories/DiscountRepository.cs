@@ -6,9 +6,11 @@ namespace Discount.API.Repositories
 {
     public class DiscountRepository : IDiscountRepository
     {
-        readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
+        
         public DiscountRepository(IConfiguration configuration)
             => _configuration = configuration ?? throw new ArgumentException(nameof(configuration));
+        
         public async Task<bool> CreateDiscount(Coupon coupon)
         {
             using var connection = new NpgsqlConnection

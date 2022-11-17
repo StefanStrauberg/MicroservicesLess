@@ -9,13 +9,15 @@ namespace Ordering.Application.Features.Orders.Queries.GetOrdersList
 {
     internal class GetOrdersListQueryHandler : IRequestHandler<GetOrdersListQuery, List<OrderVm>>
     {
-        readonly IOrderRepository _repository;
-        readonly IMapper _mapper;
+        private readonly IOrderRepository _repository;
+        private readonly IMapper _mapper;
+        
         public GetOrdersListQueryHandler(IMapper mapper, IOrderRepository repository)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _repository = repository ?? throw new ArgumentException(nameof(repository));
         }
+        
         public async System.Threading.Tasks.Task<List<OrderVm>> Handle(GetOrdersListQuery request, CancellationToken cancellationToken)
         {
             var orderList = await _repository.GetOrdersByUserName(request.UserName);

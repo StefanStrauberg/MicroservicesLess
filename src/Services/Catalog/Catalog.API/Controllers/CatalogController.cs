@@ -9,7 +9,8 @@ namespace Catalog.API.Controllers
     [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase
     {
-        readonly IProductRepository _repository;
+        private readonly IProductRepository _repository;
+        
         public CatalogController(IProductRepository repository) 
             => _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 

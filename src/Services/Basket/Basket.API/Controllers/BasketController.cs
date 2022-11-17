@@ -10,8 +10,9 @@ namespace Basket.API.Controllers
     [Route("/api/v1/[controller]")]
     public class BasketController : ControllerBase
     {
-        readonly IBasketRepository _repository;
-        readonly DiscountGrpcService _discountGrpcService;
+        private readonly IBasketRepository _repository;
+        private readonly DiscountGrpcService _discountGrpcService;
+        
         public BasketController(IBasketRepository repository, DiscountGrpcService discountGrpcService)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
