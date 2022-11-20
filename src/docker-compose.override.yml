@@ -101,3 +101,17 @@ services:
       - discountdb
     ports:
       - "8003:80"
+
+  ordering.api:
+    container_name: ordering.api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=!QAZxsw2#EDCvfr4;Encrypt=false;"
+      - "EmailSettings:ApiKey=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"
+      - "EmailSettings:FromAddress=StefanStrauberg@gmail.com"
+      - "EmailSettings:FromName=Strauberg"
+    depends_on:
+      - orderdb
+    ports:
+      - "8004:80"
