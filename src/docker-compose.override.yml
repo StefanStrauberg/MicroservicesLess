@@ -17,11 +17,11 @@ services:
 
   discountdb:
     container_name: discountdb
+    restart: always
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin1234
       - POSTGRES_DB=DiscountDb
-    restart: always
     ports:
       - "5432:5432"
     volumes:
@@ -29,12 +29,19 @@ services:
 
   orderdb:
     container_name: orderdb
+    restart: always
     environment:
       MSSQL_SA_PASSWORD: "!QAZxsw2#EDCvfr4"
       ACCEPT_EULA: "Y"
-    restart: always
     ports:
       - "1433:1433"
+
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   pgadmin:
     container_name: pgadmin
