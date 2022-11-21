@@ -11,6 +11,7 @@ using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
 using System.Reflection;
 
+const string _policyName = "CorsPolicy";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationServices();
@@ -35,6 +36,16 @@ builder.Services.AddScoped<BasketCheckoutConsumer>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: _policyName, builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("X-Pagination");
+    });
+});
 
 var app = builder.Build();
 app.MigrateDatabase<OrderContext>
@@ -52,6 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+app.UseCors(_policyName);
 app.MapControllers();
 
 app.Run();
