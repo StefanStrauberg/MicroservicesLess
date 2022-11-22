@@ -58,8 +58,15 @@ services:
       context: .
       dockerfile: ApiGateways/OcelotApiGw/Dockerfile
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.5.1
+
 volumes:
   mongo_data:
   portainer_data:
   postgres_data:
   pgadmin_data:
+  elasticsearch-data:
