@@ -2,6 +2,7 @@
 using Shopping.Aggregator.Models;
 using Shopping.Aggregator.Services;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Shopping.Aggregator.Controllers
@@ -20,7 +21,8 @@ namespace Shopping.Aggregator.Controllers
             _orderService = orderService ?? throw new ArgumentException(nameof(orderService));
         }
 
-        [HttpGet]
+        [HttpGet("{userName}", Name = "GetShopping")]
+        [ProducesResponseType(typeof(ShoppingModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetShopping(string userName)
         {
             var basket = await _basketService.GetBasket(userName);
